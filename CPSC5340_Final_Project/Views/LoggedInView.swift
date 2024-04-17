@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct LoggedInView: View {
     
     @ObservedObject var authViewModel: AuthViewModel
@@ -14,7 +15,6 @@ struct LoggedInView: View {
     var body: some View {
         VStack {
             Text("Welcome, User!")
-
             Button("Logout") {
                 authViewModel.logout()
             }

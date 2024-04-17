@@ -7,9 +7,11 @@
 
 import SwiftUI
 
+
 struct LoginFormView: View {
     
     @ObservedObject var authViewModel: AuthViewModel
+
     
     var body: some View {
         VStack(spacing: 20) {
@@ -34,31 +36,40 @@ struct LoginFormView: View {
             Button {
                 authViewModel.login()
             }
-        label: {
+            label: {
             Text("Login")
-                .bold()
-                .frame(width:200, height: 40)
-                .background(
-                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .fill(.linearGradient(colors: [.pink, .blue],  startPoint: .topLeading, endPoint: .bottomTrailing)))
-                .foregroundColor(.white)
-        }
+            .bold()
+            .frame(width:200, height: 40)
+            .background(
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    .fill(.linearGradient(colors: [.pink, .blue],  startPoint: .topLeading, endPoint: .bottomTrailing)))
+            .foregroundColor(.white)
+            }
             Button {
                 authViewModel.register()
             }
-        label: {
-            Text("Do not have an account? Sign-Up")
+            label: {
+                Text("Do not have an account? Sign-Up")
                 .bold()
                 .foregroundColor(.black)
                 .padding()
             }
+            Button("Reset Password") {
+                authViewModel.resetButton()
+            }
+            .padding()
         }
         .frame(width: 350)
+        }
+    }
+
+
+struct LoginFormView_Previews: PreviewProvider {
+    @State static var activeAlert: AuthViewModel.AlertType? = nil
+    
+    static var previews: some View {
+        LoginFormView(authViewModel: AuthViewModel()) 
+            .previewLayout(.sizeThatFits)
     }
 }
 
-struct LoginFormView_Previews: PreviewProvider {
-    static var previews: some View {
-        LoginFormView(authViewModel: AuthViewModel())
-    }
-}

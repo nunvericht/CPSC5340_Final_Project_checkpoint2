@@ -7,10 +7,10 @@
 
 import SwiftUI
 
+
 struct SignInView: View {
     
     @ObservedObject var authViewModel: AuthViewModel
-    
     
     var body: some View {
         ZStack {
@@ -18,18 +18,31 @@ struct SignInView: View {
             RoundedRectangle(cornerRadius: 30, style: .continuous)
                 .foregroundStyle(.linearGradient(colors: [.blue, .green, .orange, .red],  startPoint: .topLeading, endPoint: .bottomTrailing))
             LoginFormView(authViewModel: authViewModel)
-            }
+        }
         .ignoresSafeArea()
-        .alert(isPresented: $authViewModel.hasError) {
-            Alert(
-                title: Text("Error"),
-                message: Text(authViewModel.error?.errorDescription ?? "An unknown error occurred"),
+        .alert(item: $authViewModel.alertType){ alertType in
+            switch alertType {
+            case .error:
+                return Alert(
+                    title: Text("Error"),
+                    message: Text(authViewModel.error?.errorDescription ?? "An unknown error occurred"),
                     dismissButton: .default(Text("OK"))
-            )
+                )
+            case .passwordReset:
+                return Alert(
+                    title: Text("Reset Password"),
+                    message: Text("Are you sure you want to reset your password?"),
+                    primaryButton: .default(Text("Confirm"), action: {
+                        authViewModel.resetPassword()
+                    }),
+                    secondaryButton: .cancel(Text("Cancel"))
+                )
+            }
         }
     }
 }
-    
+
+
 struct SignInView_Previews: PreviewProvider {
     static var previews: some View {
         SignInView(authViewModel: AuthViewModel())

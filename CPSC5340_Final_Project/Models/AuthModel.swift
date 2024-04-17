@@ -14,12 +14,12 @@ class AuthModel {
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if let error = error as NSError? {
                 switch error.code {
-                case AuthErrorCode.wrongPassword.rawValue:
-                    completion(.failure(.wrongPassword))
-                case AuthErrorCode.invalidEmail.rawValue:
-                    completion(.failure(.invalidEmail))
-                default:
-                    completion(.failure(.unknownError(error.localizedDescription)))
+                    case AuthErrorCode.wrongPassword.rawValue:
+                        completion(.failure(.wrongPassword))
+                    case AuthErrorCode.invalidEmail.rawValue:
+                        completion(.failure(.invalidEmail))
+                    default:
+                        completion(.failure(.unknownError(error.localizedDescription)))
                 }
             } 
             else {
@@ -32,14 +32,30 @@ class AuthModel {
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if let error = error as NSError? {
                 switch error.code {
-                case AuthErrorCode.emailAlreadyInUse.rawValue:
-                    completion(.failure(.emailAlreadyInUse))
-                case AuthErrorCode.weakPassword.rawValue:
-                    completion(.failure(.weakPassword))
-                default:
-                    completion(.failure(.unknownError(error.localizedDescription)))
+                    case AuthErrorCode.emailAlreadyInUse.rawValue:
+                        completion(.failure(.emailAlreadyInUse))
+                    case AuthErrorCode.weakPassword.rawValue:
+                        completion(.failure(.weakPassword))
+                    default:
+                        completion(.failure(.unknownError(error.localizedDescription)))
                 }
             }
+            else {
+                completion(.success(()))
+            }
+        }
+    }
+    
+    func resetPassword(email: String, completion: @escaping (Result<Void, AuthModelError>) -> Void) {
+        Auth.auth().sendPasswordReset(withEmail: email) { error in
+            if let error = error as NSError? {
+                switch error.code {
+                    case AuthErrorCode.userNotFound.rawValue:
+                        completion(.failure(.invalidEmail))
+                    default:
+                        completion(.failure(.unknownError(error.localizedDescription)))
+                }
+            } 
             else {
                 completion(.success(()))
             }
