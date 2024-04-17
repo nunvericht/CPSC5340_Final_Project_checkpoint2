@@ -64,7 +64,7 @@ class AuthViewModel: ObservableObject {
         authModel.resetPassword(email: email){ result in
             switch result {
                 case .success:
-                    print("Password reset successful")
+                    self.alertType = .successfulPasswordReset(id: UUID())
                 case .failure(let error):
                     self.handleError(error)
             }
@@ -88,7 +88,8 @@ class AuthViewModel: ObservableObject {
         self.isLoggedIn = false
         self.hasError = true
         self.alertType = .error(id: UUID())
-       // print(error)
+        // for debugging purposes:
+        print(error)
     }
 }
 
@@ -97,10 +98,11 @@ extension AuthViewModel {
     enum AlertType: Identifiable {
         case error(id: UUID)
         case passwordReset(id: UUID)
+        case successfulPasswordReset(id: UUID)
         
         var id: UUID {
             switch self {
-            case .error(let id), .passwordReset(let id):
+            case .error(let id), .passwordReset(let id), .successfulPasswordReset(let id):
                 return id
             }
         }
@@ -111,6 +113,8 @@ extension AuthViewModel {
                 return "Error alert"
             case .passwordReset:
                 return "Password reset alert"
+            case .successfulPasswordReset:
+                return "Password reset successful"
             }
         }
     }

@@ -37,6 +37,12 @@ struct SignInView: View {
                     }),
                     secondaryButton: .cancel(Text("Cancel"))
                 )
+            case .successfulPasswordReset:
+                return Alert(
+                    title: Text("Password reset successful"),
+                    message: Text("Password reset sent. Please check your email for the link"),
+                    dismissButton: .default(Text("OK"))
+                )
             }
         }
     }
