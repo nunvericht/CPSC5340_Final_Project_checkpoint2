@@ -10,6 +10,7 @@ import FirebaseAuth
 
 
 class AuthModel {
+    
     func login(email: String, password: String, completion: @escaping (Result<Void, AuthModelError>) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if let error = error as NSError? {

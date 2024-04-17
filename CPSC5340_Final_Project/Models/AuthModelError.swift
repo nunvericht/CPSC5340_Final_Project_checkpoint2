@@ -9,6 +9,7 @@ import Foundation
 
 
 enum AuthModelError: Error, Equatable {
+    
     case wrongPassword
     case invalidEmail
     case emailAlreadyInUse

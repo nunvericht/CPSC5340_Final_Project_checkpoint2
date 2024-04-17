@@ -21,6 +21,7 @@
 		24A2D5882BBCBC6300D750FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24A2D5872BBCBC6300D750FF /* Assets.xcassets */; };
 		24A2D58B2BBCBC6300D750FF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24A2D58A2BBCBC6300D750FF /* Preview Assets.xcassets */; };
 		24A2D5922BBCBD2A00D750FF /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 24A2D5912BBCBD2A00D750FF /* Launch Screen.storyboard */; };
+		24BC94732BD01669006EF4F6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24BC94722BD01669006EF4F6 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		24A2D5872BBCBC6300D750FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		24A2D58A2BBCBC6300D750FF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		24A2D5912BBCBD2A00D750FF /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		24BC94722BD01669006EF4F6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				24A2D5832BBCBC6100D750FF /* CPSC5340_Final_ProjectApp.swift */,
+				24BC94722BD01669006EF4F6 /* AppDelegate.swift */,
 				2409B8C72BCD7E7A00D8CAD4 /* Models */,
 				2409B8CC2BCDEDA700D8CAD4 /* ViewModels */,
 				2409B8C52BCC626300D8CAD4 /* Views */,
@@ -199,6 +202,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2409B8D62BCE0BBD00D8CAD4 /* AuthModelError.swift in Sources */,
+				24BC94732BD01669006EF4F6 /* AppDelegate.swift in Sources */,
 				24A2D5862BBCBC6100D750FF /* SignInView.swift in Sources */,
 				2409B8CB2BCD850000D8CAD4 /* ContentView.swift in Sources */,
 				24A2D5842BBCBC6100D750FF /* CPSC5340_Final_ProjectApp.swift in Sources */,

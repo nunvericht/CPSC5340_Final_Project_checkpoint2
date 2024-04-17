@@ -10,7 +10,7 @@ import SwiftUI
 
 struct LoginFormView: View {
     
-    @ObservedObject var authViewModel: AuthViewModel
+    @EnvironmentObject var authViewModel: AuthViewModel
 
     
     var body: some View {
@@ -19,8 +19,11 @@ struct LoginFormView: View {
                 .foregroundColor(.black)
                 .font(.system(size: 40, weight: .bold, design: .rounded))
                 .padding()
+            Text("Please enter your email and password below. Current users select Login, new users select Sign-Up to create an account.")
+                .foregroundColor(.black)
+                .padding()
             TextField("Email", text: $authViewModel.email)
-                .foregroundColor(.white)
+                .foregroundColor(.blue)
                 .textContentType(.emailAddress)
                 .keyboardType(.emailAddress)
                 .autocapitalization(.none)
@@ -28,7 +31,7 @@ struct LoginFormView: View {
                 .frame(width: 350, height: 1)
                 .foregroundColor(.blue)
             SecureField("Password", text: $authViewModel.password)
-                .foregroundColor(.white)
+                .foregroundColor(.blue)
                 .textFieldStyle(.plain)
             Rectangle()
                 .frame(width: 350, height: 1)
@@ -60,16 +63,14 @@ struct LoginFormView: View {
             .padding()
         }
         .frame(width: 350)
-        }
     }
+}
 
 
 struct LoginFormView_Previews: PreviewProvider {
-    @State static var activeAlert: AuthViewModel.AlertType? = nil
-    
     static var previews: some View {
-        LoginFormView(authViewModel: AuthViewModel()) 
-            .previewLayout(.sizeThatFits)
+        LoginFormView()
+            .environmentObject(AuthViewModel())
     }
 }
 

@@ -1,5 +1,5 @@
 //
-//  AuthModel.swift
+//  AuthViewModel.swift
 //  CPSC5340_Final_Project
 //
 //  Created by Nicholl Unvericht on 4/14/24.
@@ -16,7 +16,6 @@ class AuthViewModel: ObservableObject {
     @Published var hasError: Bool = false
     @Published var alertType: AlertType?
 
-
     private let authModel: AuthModel
 
     init(authModel: AuthModel = AuthModel()) {
@@ -27,15 +26,21 @@ class AuthViewModel: ObservableObject {
         authModel.login(email: email, password: password) { result in
             switch result {
                 case .success:
-                    self.error = nil
-                    self.isLoggedIn = true
-                    self.hasError = false
+                    self.handleSuccessfulLogin()
                 case .failure(let error):
-                    self.error = error
-                    self.isLoggedIn = false
-                    self.hasError = true
-                    self.alertType = .error(id: UUID())
-                    print(error)
+                    self.handleError(error)
+            }
+        }
+    }
+    
+    func logout() {
+        authModel.logout { result in
+            switch result {
+            case .success:
+                self.handleSuccessfulLogout()
+            case .failure(let error):
+                print("Logout error: \(error.localizedDescription)")
+                self.handleError(error as! AuthModelError)
             }
         }
     }
@@ -44,19 +49,13 @@ class AuthViewModel: ObservableObject {
         authModel.register(email: email, password: password) { result in
             switch result {
                 case .success:
-                    self.error = nil
-                    self.isLoggedIn = true
-                    self.hasError = false
+                    self.handleSuccessfulLogin()
                 case .failure(let error):
-                    self.error = error
-                    self.isLoggedIn = false
-                    self.hasError = true
-                    self.alertType = .error(id: UUID())
-                    print(error)
+                    self.handleError(error)
             }
         }
     }
-    
+
     func resetButton() {
         self.alertType = .passwordReset(id: UUID())
     }
@@ -67,26 +66,32 @@ class AuthViewModel: ObservableObject {
                 case .success:
                     print("Password reset successful")
                 case .failure(let error):
-                    self.error = error
-                    self.alertType = .error(id: UUID())
+                    self.handleError(error)
             }
         }
     }
-    
-    func logout() {
-        authModel.logout { result in
-            switch result {
-                case .success:
-                    self.isLoggedIn = false
-                    self.hasError = false
-                case .failure(let error):
-                    print("Logout error: \(error.localizedDescription)")
-                    self.hasError = true
-                    self.alertType = .error(id: UUID())
-            }
-        }
+
+    private func handleSuccessfulLogin() {
+        self.error = nil
+        self.isLoggedIn = true
+        self.hasError = false
+    }
+        
+    private func handleSuccessfulLogout() {
+        self.error = nil
+        self.isLoggedIn = false
+        self.hasError = false
+    }
+
+    private func handleError(_ error: AuthModelError) {
+        self.error = error
+        self.isLoggedIn = false
+        self.hasError = true
+        self.alertType = .error(id: UUID())
+       // print(error)
     }
 }
+
 
 extension AuthViewModel {
     enum AlertType: Identifiable {

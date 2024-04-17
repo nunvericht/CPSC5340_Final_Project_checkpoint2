@@ -10,22 +10,28 @@ import SwiftUI
 
 struct LoggedInView: View {
     
-    @ObservedObject var authViewModel: AuthViewModel
-
+    @EnvironmentObject var authViewModel: AuthViewModel
+    
+    
     var body: some View {
-        VStack {
-            Text("Welcome, User!")
-            Button("Logout") {
-                authViewModel.logout()
+        ZStack {
+            Color.black.edgesIgnoringSafeArea(.all)
+            VStack {
+                Text("Welcome, \(authViewModel.email)")
+                .foregroundColor(.white)
+                .padding()
+                Button("Logout") {
+                    authViewModel.logout()
+                }
+                .foregroundColor(.white)
             }
         }
-        .padding()
     }
 }
 
 struct LoggedInView_Previews: PreviewProvider {
     static var previews: some View {
-        let authViewModel = AuthViewModel()
-        LoggedInView(authViewModel: authViewModel)
+        LoggedInView()
+            .environmentObject(AuthViewModel())
     }
 }

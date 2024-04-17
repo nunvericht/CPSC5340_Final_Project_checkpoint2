@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  SignInView.swift
 //  CPSC5340_Final_Project
 //
 //  Created by Nicholl Unvericht on 4/2/24.
@@ -10,14 +10,14 @@ import SwiftUI
 
 struct SignInView: View {
     
-    @ObservedObject var authViewModel: AuthViewModel
+    @EnvironmentObject var authViewModel: AuthViewModel
     
     var body: some View {
         ZStack {
             Color.black
             RoundedRectangle(cornerRadius: 30, style: .continuous)
                 .foregroundStyle(.linearGradient(colors: [.blue, .green, .orange, .red],  startPoint: .topLeading, endPoint: .bottomTrailing))
-            LoginFormView(authViewModel: authViewModel)
+            LoginFormView()
         }
         .ignoresSafeArea()
         .alert(item: $authViewModel.alertType){ alertType in
@@ -45,6 +45,7 @@ struct SignInView: View {
 
 struct SignInView_Previews: PreviewProvider {
     static var previews: some View {
-        SignInView(authViewModel: AuthViewModel())
+        SignInView()
+            .environmentObject(AuthViewModel())
     }
 }

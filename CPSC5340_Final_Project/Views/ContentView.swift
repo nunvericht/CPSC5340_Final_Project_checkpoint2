@@ -10,21 +10,24 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @ObservedObject var authViewModel = AuthViewModel()
+    @EnvironmentObject var authViewModel: AuthViewModel
 
     var body: some View {
         NavigationView {
             if !authViewModel.isLoggedIn {
-                SignInView(authViewModel: authViewModel)
+                SignInView()
             }
             else {
-                LoggedInView(authViewModel: authViewModel)
+                LoggedInView()
             }
         }
     }
 }
 
 
-#Preview {
-    ContentView()
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+            .environmentObject(AuthViewModel())
+    }
 }
