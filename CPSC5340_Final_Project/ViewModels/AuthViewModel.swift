@@ -15,6 +15,7 @@ class AuthViewModel: ObservableObject {
     @Published var error: AuthModelError?
     @Published var hasError: Bool = false
     @Published var alertType: AlertType?
+    @Published var name: String = ""
 
     private let authModel: AuthModel
 

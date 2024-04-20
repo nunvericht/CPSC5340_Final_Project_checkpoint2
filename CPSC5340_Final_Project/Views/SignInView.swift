@@ -13,13 +13,13 @@ struct SignInView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     
     var body: some View {
-        ZStack {
-            Color.black
-            RoundedRectangle(cornerRadius: 30, style: .continuous)
-                .foregroundStyle(.linearGradient(colors: [.blue, .green, .orange, .red],  startPoint: .topLeading, endPoint: .bottomTrailing))
-            LoginFormView()
+        NavigationStack {
+            ZStack {
+                LinearGradient(gradient: Gradient(colors: [.blue, .green, .orange, .red]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                    .edgesIgnoringSafeArea(.all)
+                LoginForm()
+            }
         }
-        .ignoresSafeArea()
         .alert(item: $authViewModel.alertType){ alertType in
             switch alertType {
             case .error:
