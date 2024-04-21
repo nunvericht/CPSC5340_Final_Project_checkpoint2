@@ -9,7 +9,8 @@ import SwiftUI
 
 struct MessageField: View {
     
-    @State private var message = ""
+    @Binding var message: String
+    let action: (String) -> Void
     
     var body: some View {
         HStack {
@@ -36,9 +37,9 @@ struct MessageField: View {
     }
 }
 
-#Preview {
-    MessageField()
-}
+/*#Preview {
+    MessageField(message: <#Binding<String>#>, action: <#(String) -> Void#>)
+}*/
 
 struct CustomTextField: View {
     var placeholder: Text

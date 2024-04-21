@@ -8,9 +8,17 @@
 import Foundation
 
 
-struct UserModel: Codable, Identifiable, Hashable {
-    let id: String
-    let name: String
-    let isCurrentUser: Bool
+struct UserModel : Codable {
     
+    let uid: String?
+    let email: String?
+    let name: String?
+    let profileURL: String?
+    
+    init(uid: String?, email: String?, name: String?, profileURL: String?) {
+        self.uid = uid
+        self.email = email
+        self.name = name
+        self.profileURL = profileURL
+    }
 }

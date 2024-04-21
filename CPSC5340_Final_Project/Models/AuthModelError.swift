@@ -14,6 +14,7 @@ enum AuthModelError: Error, Equatable {
     case invalidEmail
     case emailAlreadyInUse
     case weakPassword
+    case userNotFound
     case unknownError(String)
     
     var errorDescription: String? {
@@ -26,6 +27,8 @@ enum AuthModelError: Error, Equatable {
             return "Email address is already in use."
         case .weakPassword:
             return "Password is weak. Please choose a stronger password."
+        case .userNotFound:
+            return "User not found."
         case .unknownError(let message):
             return message
         }

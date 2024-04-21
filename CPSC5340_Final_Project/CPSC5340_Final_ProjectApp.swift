@@ -3,7 +3,7 @@
 //  CPSC5340_Final_Project
 //
 //  Created by Nicholl Unvericht on 4/2/24.
-//  Dogicon by https://icons8.com" Icons8
+//  Dog App Icon by Icons8 https://icons8.com
 
 import SwiftUI
 

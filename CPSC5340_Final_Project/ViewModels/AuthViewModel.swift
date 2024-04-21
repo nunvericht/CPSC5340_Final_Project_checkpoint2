@@ -9,13 +9,16 @@ import SwiftUI
 
 
 class AuthViewModel: ObservableObject {
+    
+    @Published var currentUser: UserModel?
     @Published var email = ""
     @Published var password = ""
+    @Published var name = ""
+    @Published var profileURL = ""
     @Published var isLoggedIn: Bool = false
     @Published var error: AuthModelError?
     @Published var hasError: Bool = false
     @Published var alertType: AlertType?
-    @Published var name: String = ""
 
     private let authModel: AuthModel
 
@@ -24,7 +27,8 @@ class AuthViewModel: ObservableObject {
     }
 
     func login() {
-        authModel.login(email: email, password: password) { result in
+        authModel.login(email: email, password: password) { 
+            result in
             switch result {
                 case .success:
                     self.handleSuccessfulLogin()
@@ -35,19 +39,21 @@ class AuthViewModel: ObservableObject {
     }
     
     func logout() {
-        authModel.logout { result in
+        authModel.logout { 
+            result in
             switch result {
-            case .success:
-                self.handleSuccessfulLogout()
-            case .failure(let error):
-                print("Logout error: \(error.localizedDescription)")
-                self.handleError(error as! AuthModelError)
+                case .success:
+                    self.handleSuccessfulLogout()
+                case .failure(let error):
+                    print("Logout error: \(error.localizedDescription)")
+                    self.handleError(error as! AuthModelError)
             }
         }
     }
 
     func register() {
-        authModel.register(email: email, password: password) { result in
+        authModel.register(email: email, password: password, name: name) { 
+            result in
             switch result {
                 case .success:
                     self.handleSuccessfulLogin()
@@ -62,7 +68,7 @@ class AuthViewModel: ObservableObject {
     }
     
     func resetPassword() {
-        authModel.resetPassword(email: email){ result in
+        authModel.resetPassword(email: email) { result in
             switch result {
                 case .success:
                     self.alertType = .successfulPasswordReset(id: UUID())
@@ -71,11 +77,37 @@ class AuthViewModel: ObservableObject {
             }
         }
     }
+    
+    func name(forUserID id: String, completion: @escaping (String?) -> Void) {
+        authModel.fetchUser(withID: id) { user in
+            DispatchQueue.main.async {
+                if let user = user {
+                    completion(user.name)
+                }
+                else {
+                    completion(nil)
+                }
+            }
+        }
+    }
 
     private func handleSuccessfulLogin() {
-        self.error = nil
-        self.isLoggedIn = true
-        self.hasError = false
+        authModel.fetchUserProfile { 
+            (userProfile, error) in
+            DispatchQueue.main.async {
+                if let user = userProfile {
+                    self.currentUser = user
+                    self.isLoggedIn = true
+                    self.hasError = false
+                    self.profileURL = user.profileURL ?? "dog.cicle.fill"
+                    // for debugging purposes:
+                    print("User's name: \(String(describing: user.name))")
+                }
+                else if let error = error {
+                            self.handleError(error)
+                }
+            }
+        }
     }
         
     private func handleSuccessfulLogout() {
@@ -96,6 +128,7 @@ class AuthViewModel: ObservableObject {
 
 
 extension AuthViewModel {
+    
     enum AlertType: Identifiable {
         case error(id: UUID)
         case passwordReset(id: UUID)
@@ -103,7 +136,9 @@ extension AuthViewModel {
         
         var id: UUID {
             switch self {
-            case .error(let id), .passwordReset(let id), .successfulPasswordReset(let id):
+            case .error(let id), 
+                    .passwordReset(let id),
+                    .successfulPasswordReset(let id):
                 return id
             }
         }
